@@ -5,6 +5,7 @@ import eu.happycoders.binarytree.BreadthFirstTraversal;
 import eu.happycoders.binarytree.DepthFirstTraversalIterative;
 import eu.happycoders.binarytree.DepthFirstTraversalRecursive;
 import eu.happycoders.binarytree.Node;
+import eu.happycoders.binarytree.NodeFactory;
 import eu.happycoders.binarytree.NodeVisitor;
 import eu.happycoders.binarytree.SimpleBinaryTree;
 import eu.happycoders.binarytree.SimpleBinaryTree.Side;
@@ -25,7 +26,7 @@ public class Example1 {
   }
 
   private static TreeWithNodesToDelete createSampleTree() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
 
     Node root = tree.insertRoot(3);
 

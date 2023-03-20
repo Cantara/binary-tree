@@ -4,6 +4,7 @@ import eu.happycoders.binarytree.BinaryTree;
 import eu.happycoders.binarytree.BreadthFirstTraversal;
 import eu.happycoders.binarytree.DepthFirstTraversalRecursive;
 import eu.happycoders.binarytree.Node;
+import eu.happycoders.binarytree.NodeFactory;
 import eu.happycoders.binarytree.NodeVisitor;
 import eu.happycoders.binarytree.SimpleBinaryTree;
 import eu.happycoders.binarytree.SimpleBinaryTree.Side;
@@ -23,7 +24,7 @@ public class Example2 {
   }
 
   private static SimpleBinaryTree createSampleTree() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
 
     Node root = tree.insertRoot(3);
 

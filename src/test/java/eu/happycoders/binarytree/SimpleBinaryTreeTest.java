@@ -13,7 +13,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void insertRoot_rootIsNull_rootIsSetToNewNodeWithGivenValue() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
 
     assertThat(root, sameInstance(tree.getRoot()));
@@ -26,20 +26,20 @@ class SimpleBinaryTreeTest {
 
   @Test
   void insertRoot_rootIsAlreadySet_throwsException() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     tree.insertRoot(3);
     assertThrows(IllegalStateException.class, () -> tree.insertRoot(5));
   }
 
   @Test
   void insertNode_parentIsNull_throwsException() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     assertThrows(NullPointerException.class, () -> tree.insertNode(1, null, Side.LEFT));
   }
 
   @Test
   void insertNode_leftUnderEmptyRoot_newNodeIsLeftUnderRootAndParentIsSet() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node = tree.insertNode(1, root, Side.LEFT);
 
@@ -54,7 +54,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void insertNode_leftUnderFullRoot_newNodeIsLeftUnderRootAndPreviousLeftIsLeftUnderNewNode() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -74,7 +74,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void insertNode_rightUnderEmptyRoot_newNodeIsRightUnderRootAndParentIsSet() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node = tree.insertNode(10, root, Side.RIGHT);
 
@@ -89,7 +89,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void insertNode_rightUnderFullRoot_newNodeIsRightUnderRootAndPreviousRightIsRightUnderNewNode() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -109,7 +109,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void deleteNode_leaf_leafIsRemoved() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -122,7 +122,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void deleteNode_nonRootNodeWithoutParent_throwsException() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -133,7 +133,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void deleteNode_nodeWithLeftChildOnly_nodeIsReplacedByChild() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -150,7 +150,7 @@ class SimpleBinaryTreeTest {
 
   @Test
   void deleteNode_nodeWithRightChildOnly_nodeIsReplacedByChild() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -168,7 +168,7 @@ class SimpleBinaryTreeTest {
   @Test
   void
       deleteNode_rightChildNodeWithTwoChildren_nodeIsReplacedByLeftSubtreeAndRightSubtreeIsAppendedToRightmostNodeOfLeftSubtree() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);
@@ -196,7 +196,7 @@ class SimpleBinaryTreeTest {
   @Test
   void
       deleteNode_leftChildNodeWithTwoChildren_nodeIsReplacedByLeftSubtreeAndRightSubtreeIsAppendedToRightmostNodeOfLeftSubtree() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(15);
     Node node10 = tree.insertNode(10, root, Side.LEFT);
     Node node20 = tree.insertNode(20, root, Side.RIGHT);
@@ -224,7 +224,7 @@ class SimpleBinaryTreeTest {
   @Test
   void
       deleteNode_rootWithTwoChildren_nodeIsReplacedByLeftSubtreeAndRightSubtreeIsAppendedToRightmostNodeOfLeftSubtree() {
-    SimpleBinaryTree tree = new SimpleBinaryTree();
+    SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
     Node node1 = tree.insertNode(1, root, Side.LEFT);
     Node node10 = tree.insertNode(10, root, Side.RIGHT);

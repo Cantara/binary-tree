@@ -8,6 +8,10 @@ package eu.happycoders.binarytree;
  */
 public class BinarySearchTreeRecursiveWithParent extends BinarySearchTreeRecursive {
 
+  public BinarySearchTreeRecursiveWithParent(NodeFactory factory) {
+    super(factory);
+  }
+
   @Override
   Node insertNode(long key, Node node) {
     node = super.insertNode(key, node);

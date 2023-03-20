@@ -1,6 +1,5 @@
 package eu.happycoders.binarytree;
 
-
 import static eu.happycoders.binarytree.BinaryTreeAssert.assertThatTree;
 import static eu.happycoders.binarytree.RedBlackTree.BLACK;
 import static eu.happycoders.binarytree.RedBlackTree.RED;
@@ -9,7 +8,7 @@ class RedBlackTreeTest extends BinarySearchTreeTest {
 
   @Override
   protected BinarySearchTree createBST() {
-    return new RedBlackTree();
+    return new RedBlackTree(NodeFactory.defaultFactory());
   }
 
   @Override

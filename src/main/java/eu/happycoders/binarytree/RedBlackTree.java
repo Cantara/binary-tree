@@ -10,6 +10,12 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
   static final boolean RED = false;
   static final boolean BLACK = true;
 
+  private final NodeFactory factory;
+
+  public RedBlackTree(NodeFactory factory) {
+    this.factory = factory;
+  }
+
   @Override
   public Node searchNode(long key) {
     Node node = root;
@@ -46,7 +52,7 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
     }
 
     // Insert new node
-    Node newNode = new Node(key);
+    Node newNode = factory.createNode(key);
     newNode.color(RED);
     if (parent == null) {
       root = newNode;
@@ -212,7 +218,7 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
       fixRedBlackPropertiesAfterDelete(movedUpNode);
 
       // Remove the temporary NIL node
-      if (movedUpNode.getClass() == NilNode.class) {
+      if (movedUpNode.isNil()) {
         replaceParentsChild(movedUpNode.parent(), movedUpNode, null);
       }
     }
@@ -235,7 +241,7 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
     // * node is red --> just remove it
     // * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
     else {
-      Node newChild = node.color() == BLACK ? new NilNode() : null;
+      Node newChild = node.color() == BLACK ? factory.nilNode() : null;
       replaceParentsChild(node.parent(), node, newChild);
       return newChild;
     }
@@ -344,13 +350,6 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
 
   private boolean isBlack(Node node) {
     return node == null || node.color() == BLACK;
-  }
-
-  private static class NilNode extends Node {
-    private NilNode() {
-      super(0);
-      this.color(BLACK);
-    }
   }
 
   // -- Helpers for insertion and deletion ---------------------------------------------------------

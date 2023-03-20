@@ -4,6 +4,6 @@ class BinarySearchTreeRecursiveTest extends BinarySearchTreeTest {
 
   @Override
   protected BinarySearchTree createBST() {
-    return new BinarySearchTreeRecursive();
+    return new BinarySearchTreeRecursive(NodeFactory.defaultFactory());
   }
 }

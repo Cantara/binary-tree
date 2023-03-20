@@ -9,10 +9,17 @@ import java.util.Objects;
  */
 public class SimpleBinaryTree extends BaseBinaryTree {
 
+  private final NodeFactory factory;
+
+  public SimpleBinaryTree(NodeFactory factory) {
+    this.factory = factory;
+  }
+
   /** Indicates the child position (left, right) when inserting a node. */
   public enum Side {
     LEFT,
     RIGHT
+
   }
 
   /**
@@ -26,7 +33,7 @@ public class SimpleBinaryTree extends BaseBinaryTree {
       throw new IllegalStateException("Root already defined");
     }
 
-    root = new Node(value);
+    root = factory.createNode(value);
 
     return root;
   }
@@ -41,7 +48,7 @@ public class SimpleBinaryTree extends BaseBinaryTree {
    */
   public Node insertNode(long value, Node parent, Side side) {
     Objects.requireNonNull(parent);
-    var node = new Node(value);
+    var node = factory.createNode(value);
 
     node.parent(parent);
 

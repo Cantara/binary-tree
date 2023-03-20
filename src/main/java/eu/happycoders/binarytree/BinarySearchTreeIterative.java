@@ -7,6 +7,12 @@ package eu.happycoders.binarytree;
  */
 public class BinarySearchTreeIterative extends BaseBinaryTree implements BinarySearchTree {
 
+  private final NodeFactory factory;
+
+  public BinarySearchTreeIterative(NodeFactory factory) {
+    this.factory = factory;
+  }
+
   @Override
   public Node searchNode(long key) {
     Node node = root;
@@ -25,7 +31,7 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
 
   @Override
   public void insertNode(long key) {
-    Node newNode = new Node(key);
+    Node newNode = factory.createNode(key);
 
     if (root == null) {
       root = newNode;

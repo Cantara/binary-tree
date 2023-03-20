@@ -4,7 +4,7 @@ class AvlTreeTest extends BinarySearchTreeTest {
 
   @Override
   protected BinarySearchTree createBST() {
-    return new AvlTree();
+    return new AvlTree(NodeFactory.defaultFactory());
   }
 
   @Override

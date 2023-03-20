@@ -5,18 +5,19 @@ public class TestTreeWithValues implements BinaryTree {
   private static final Node ROOT;
 
   static {
-    ROOT = new Node(3);
-    ROOT.left(new Node(1));
-    ROOT.left().left(new Node(13));
-    ROOT.left().right(new Node(5));
-    ROOT.left().right().left(new Node(6));
-    ROOT.right(new Node(10));
-    ROOT.right().left(new Node(11));
-    ROOT.right().right(new Node(16));
-    ROOT.right().right().left(new Node(15));
-    ROOT.right().right().left().left(new Node(9));
-    ROOT.right().right().left().right(new Node(4));
-    ROOT.right().right().right(new Node(2));
+    NodeFactory factory = NodeFactory.defaultFactory();
+    ROOT = factory.createNode(3);
+    ROOT.left(factory.createNode(1));
+    ROOT.left().left(factory.createNode(13));
+    ROOT.left().right(factory.createNode(5));
+    ROOT.left().right().left(factory.createNode(6));
+    ROOT.right(factory.createNode(10));
+    ROOT.right().left(factory.createNode(11));
+    ROOT.right().right(factory.createNode(16));
+    ROOT.right().right().left(factory.createNode(15));
+    ROOT.right().right().left().left(factory.createNode(9));
+    ROOT.right().right().left().right(factory.createNode(4));
+    ROOT.right().right().right(factory.createNode(2));
   }
 
   static final Long[] PRE_ORDER_VALUES = {3L, 1L, 13L, 5L, 6L, 10L, 11L, 16L, 15L, 9L, 4L, 2L};

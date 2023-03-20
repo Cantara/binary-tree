@@ -1,83 +1,38 @@
 package eu.happycoders.binarytree;
 
 /**
- * A node in a binary tree, containing an <code>int</code> data.
+ * A node in a binary tree, containing an <code>long</code> data.
  *
  * @author <a href="sven@happycoders.eu">Sven Woltmann</a>
  */
-public class Node {
+public interface Node {
 
-  // also called "value" in a binary tree
-  // also called "key" in a binary search tree
-  private long data;
+  boolean RED = false;
+  boolean BLACK = true;
 
-  private Node left;
-  private Node right;
-  private Node parent; // used in SimpleBinaryTree + red-black tree
+  long data();
 
-  private int height; // used in AVL tree
-  private boolean color; // used in red-black tree
+  Node data(long data);
 
-  /**
-   * Constructs a new node with the given data.
-   *
-   * @param data the data to store in the node
-   */
-  public Node(long data) {
-    this.data = data;
-  }
+  Node left();
 
-  public long data() {
-    return data;
-  }
+  Node left(Node left);
 
-  public Node data(long data) {
-    this.data = data;
-    return this;
-  }
+  Node right();
 
-  public Node left() {
-    return left;
-  }
+  Node right(Node right);
 
-  public Node left(Node left) {
-    this.left = left;
-    return this;
-  }
+  Node parent();
 
-  public Node right() {
-    return right;
-  }
+  Node parent(Node parent);
 
-  public Node right(Node right) {
-    this.right = right;
-    return this;
-  }
+  int height();
 
-  public Node parent() {
-    return parent;
-  }
+  Node height(int height);
 
-  public Node parent(Node parent) {
-    this.parent = parent;
-    return this;
-  }
+  boolean color();
 
-  public int height() {
-    return height;
-  }
+  Node color(boolean color);
 
-  public Node height(int height) {
-    this.height = height;
-    return this;
-  }
-
-  public boolean color() {
-    return color;
-  }
-
-  public Node color(boolean color) {
-    this.color = color;
-    return this;
-  }
+  boolean isNil();
 }

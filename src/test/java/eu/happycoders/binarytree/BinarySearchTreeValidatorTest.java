@@ -9,6 +9,9 @@ import static org.hamcrest.Matchers.is;
 
 class BinarySearchTreeValidatorTest {
 
+  NodeFactory factory = NodeFactory.defaultFactory();
+
+
   @Test
   void shouldReturnTrueForEmptyTree() {
     BinaryTree tree = TestTree.emptyTree();
@@ -17,39 +20,39 @@ class BinarySearchTreeValidatorTest {
 
   @Test
   void shouldReturnTrueForTreeWithOneNode() {
-    Node root = new Node(100);
+    Node root = factory.createNode(100);
     BinaryTree tree = new TestTree(root);
     assertThat(isBstWithoutDuplicates(tree), is(true));
   }
 
   @Test
   void shouldReturnTrueForTreeWithNodeAndSmallerLeftChild() {
-    Node root = new Node(100);
-    root.left(new Node(50));
+    Node root = factory.createNode(100);
+    root.left(factory.createNode(50));
     BinaryTree tree = new TestTree(root);
     assertThat(isBstWithoutDuplicates(tree), is(true));
   }
 
   @Test
   void shouldReturnFalseForTreeWithNodeAndGreaterLeftChild() {
-    Node root = new Node(100);
-    root.left(new Node(110));
+    Node root = factory.createNode(100);
+    root.left(factory.createNode(110));
     BinaryTree tree = new TestTree(root);
     assertThat(isBstWithoutDuplicates(tree), is(false));
   }
 
   @Test
   void shouldReturnTrueForTreeWithNodeAndGreaterRightChild() {
-    Node root = new Node(100);
-    root.right(new Node(110));
+    Node root = factory.createNode(100);
+    root.right(factory.createNode(110));
     BinaryTree tree = new TestTree(root);
     assertThat(isBstWithoutDuplicates(tree), is(true));
   }
 
   @Test
   void shouldReturnFalseForTreeWithNodeAndSmallerRightChild() {
-    Node root = new Node(100);
-    root.right(new Node(90));
+    Node root = factory.createNode(100);
+    root.right(factory.createNode(90));
     BinaryTree tree = new TestTree(root);
     assertThat(isBstWithoutDuplicates(tree), is(false));
   }
@@ -77,9 +80,9 @@ class BinarySearchTreeValidatorTest {
 
   @Test
   void withDuplicates_shouldReturnTrueForDuplicatesOfRoot() {
-    Node root = new Node(100);
-    root.left(new Node(100));
-    root.right(new Node(100));
+    Node root = factory.createNode(100);
+    root.left(factory.createNode(100));
+    root.right(factory.createNode(100));
     BinaryTree tree = new TestTree(root);
 
     assertThat(isBstWithDuplicates(tree), is(true));
@@ -89,8 +92,8 @@ class BinarySearchTreeValidatorTest {
   void withDuplicates_shouldReturnTrueForDuplicateInValidComplexTree() {
     BinaryTree tree = generateComplexValidTree();
 
-    tree.getRoot().left().left().left(new Node(1));
-    tree.getRoot().right().right().right().left(new Node(16));
+    tree.getRoot().left().left().left(factory.createNode(1));
+    tree.getRoot().right().right().right().left(factory.createNode(16));
 
     assertThat(isBstWithDuplicates(tree), is(true));
   }
@@ -99,8 +102,8 @@ class BinarySearchTreeValidatorTest {
   void withDuplicates_shouldReturnFalseForDuplicatesWithErrorInValidComplexTree() {
     BinaryTree tree = generateComplexValidTree();
 
-    tree.getRoot().left().left().left(new Node(1));
-    tree.getRoot().left().left().left().right(new Node(2));
+    tree.getRoot().left().left().left(factory.createNode(1));
+    tree.getRoot().left().left().left().right(factory.createNode(2));
 
     assertThat(isBstWithDuplicates(tree), is(false));
   }
@@ -120,58 +123,58 @@ class BinarySearchTreeValidatorTest {
   }
 
   private BinaryTree generateComplexValidTree() {
-    Node root = new Node(5);
+    Node root = factory.createNode(5);
 
-    root.left(new Node(2));
-    root.left().left(new Node(1));
-    root.left().right(new Node(4));
-    root.left().right().left(new Node(3));
+    root.left(factory.createNode(2));
+    root.left().left(factory.createNode(1));
+    root.left().right(factory.createNode(4));
+    root.left().right().left(factory.createNode(3));
 
-    root.right(new Node(9));
-    root.right().left(new Node(6));
-    root.right().right(new Node(15));
-    root.right().right().left(new Node(11));
-    root.right().right().left().left(new Node(10));
-    root.right().right().left().right(new Node(13));
-    root.right().right().right(new Node(16));
+    root.right(factory.createNode(9));
+    root.right().left(factory.createNode(6));
+    root.right().right(factory.createNode(15));
+    root.right().right().left(factory.createNode(11));
+    root.right().right().left().left(factory.createNode(10));
+    root.right().right().left().right(factory.createNode(13));
+    root.right().right().right(factory.createNode(16));
 
     return new TestTree(root);
   }
 
   private BinaryTree generateComplexInvalidTree1() {
-    Node root = new Node(5);
+    Node root = factory.createNode(5);
 
-    root.left(new Node(2));
-    root.left().left(new Node(1));
-    root.left().right(new Node(4));
-    root.left().right().right(new Node(3)); // right instead of left
+    root.left(factory.createNode(2));
+    root.left().left(factory.createNode(1));
+    root.left().right(factory.createNode(4));
+    root.left().right().right(factory.createNode(3)); // right instead of left
 
-    root.right(new Node(9));
-    root.right().left(new Node(6));
-    root.right().right(new Node(15));
-    root.right().right().left(new Node(11));
-    root.right().right().left().left(new Node(10));
-    root.right().right().left().right(new Node(13));
-    root.right().right().right(new Node(16));
+    root.right(factory.createNode(9));
+    root.right().left(factory.createNode(6));
+    root.right().right(factory.createNode(15));
+    root.right().right().left(factory.createNode(11));
+    root.right().right().left().left(factory.createNode(10));
+    root.right().right().left().right(factory.createNode(13));
+    root.right().right().right(factory.createNode(16));
 
     return new TestTree(root);
   }
 
   private BinaryTree generateComplexInvalidTree2() {
-    Node root = new Node(5);
+    Node root = factory.createNode(5);
 
-    root.left(new Node(2));
-    root.left().left(new Node(1));
-    root.left().right(new Node(4));
-    root.left().right().left(new Node(3));
+    root.left(factory.createNode(2));
+    root.left().left(factory.createNode(1));
+    root.left().right(factory.createNode(4));
+    root.left().right().left(factory.createNode(3));
 
-    root.right(new Node(9));
-    root.right().left(new Node(6));
-    root.right().right(new Node(15));
-    root.right().right().left(new Node(11));
-    root.right().right().left().left(new Node(10));
-    root.right().right().right(new Node(16));
-    root.right().right().right().left(new Node(13));
+    root.right(factory.createNode(9));
+    root.right().left(factory.createNode(6));
+    root.right().right(factory.createNode(15));
+    root.right().right().left(factory.createNode(11));
+    root.right().right().left().left(factory.createNode(10));
+    root.right().right().right(factory.createNode(16));
+    root.right().right().right().left(factory.createNode(13));
 
     return new TestTree(root);
   }

@@ -4,6 +4,6 @@ class BinarySearchTreeIterativeTest extends BinarySearchTreeTest {
 
   @Override
   protected BinarySearchTree createBST() {
-    return new BinarySearchTreeIterative();
+    return new BinarySearchTreeIterative(NodeFactory.defaultFactory());
   }
 }

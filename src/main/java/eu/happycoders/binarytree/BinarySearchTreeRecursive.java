@@ -7,6 +7,12 @@ package eu.happycoders.binarytree;
  */
 public class BinarySearchTreeRecursive extends BaseBinaryTree implements BinarySearchTree {
 
+  private final NodeFactory factory;
+
+  public BinarySearchTreeRecursive(NodeFactory factory) {
+    this.factory = factory;
+  }
+
   @Override
   public Node searchNode(long key) {
     return searchNode(key, root);
@@ -34,7 +40,7 @@ public class BinarySearchTreeRecursive extends BaseBinaryTree implements BinaryS
   Node insertNode(long key, Node node) {
     // No node at current position --> store new node at current position
     if (node == null) {
-      node = new Node(key);
+      node = factory.createNode(key);
     }
 
     // Otherwise, traverse the tree to the left or right depending on the key

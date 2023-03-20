@@ -9,6 +9,10 @@ import static java.lang.Math.max;
  */
 public class AvlTree extends BinarySearchTreeRecursive {
 
+  public AvlTree(NodeFactory factory) {
+    super(factory);
+  }
+
   @Override
   Node insertNode(long key, Node node) {
     node = super.insertNode(key, node);

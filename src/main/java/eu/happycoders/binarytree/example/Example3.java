@@ -6,6 +6,7 @@ import eu.happycoders.binarytree.BinarySearchTreeIterative;
 import eu.happycoders.binarytree.BinarySearchTreeRecursive;
 import eu.happycoders.binarytree.DepthFirstTraversalRecursive;
 import eu.happycoders.binarytree.Node;
+import eu.happycoders.binarytree.NodeFactory;
 import eu.happycoders.binarytree.NodeVisitor;
 
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ public class Example3 {
   private static final NodeVisitor VISITOR = node -> System.out.print(node.data() + " ");
 
   public static void main(String[] args) {
-    runDemoWith(new BinarySearchTreeRecursive());
-    runDemoWith(new BinarySearchTreeIterative());
-    runDemoWith(new AvlTree());
+    runDemoWith(new BinarySearchTreeRecursive(NodeFactory.defaultFactory()));
+    runDemoWith(new BinarySearchTreeIterative(NodeFactory.defaultFactory()));
+    runDemoWith(new AvlTree(NodeFactory.defaultFactory()));
   }
 
   private static void runDemoWith(BinarySearchTree tree) {
