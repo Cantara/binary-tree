@@ -40,7 +40,7 @@ public class BinaryTreeAssert {
     if (node == null) return;
 
     // Root must not have a parent
-    if (node == tree.getRoot()) {
+    if (node.equals(tree.getRoot())) {
       if (node.parent() != null) {
         throw new AssertionError("Not all parents set correctly: root must not have a parent");
       }
@@ -53,7 +53,7 @@ public class BinaryTreeAssert {
             "Not all parents set correctly: node " + node.data() + " has no parent");
       }
 
-      if (node.parent() != parent) {
+      if (!parent.equals(node.parent())) {
         throw new AssertionError(
             "Not all parents set correctly: parent "
                 + node.parent().data()

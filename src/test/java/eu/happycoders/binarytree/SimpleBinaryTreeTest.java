@@ -4,9 +4,9 @@ import eu.happycoders.binarytree.SimpleBinaryTree.Side;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SimpleBinaryTreeTest {
@@ -16,7 +16,7 @@ class SimpleBinaryTreeTest {
     SimpleBinaryTree tree = new SimpleBinaryTree(NodeFactory.defaultFactory());
     Node root = tree.insertRoot(3);
 
-    assertThat(root, sameInstance(tree.getRoot()));
+    assertThat(root, equalTo(tree.getRoot()));
 
     assertThat(root.data(), is(3L));
     assertThat(root.left(), is(nullValue()));
@@ -43,13 +43,13 @@ class SimpleBinaryTreeTest {
     Node root = tree.insertRoot(3);
     Node node = tree.insertNode(1, root, Side.LEFT);
 
-    assertThat(root.left(), sameInstance(node));
+    assertThat(root.left(), equalTo(node));
     assertThat(root.right(), is(nullValue()));
 
     assertThat(node.data(), is(1L));
     assertThat(node.left(), is(nullValue()));
     assertThat(node.right(), is(nullValue()));
-    assertThat(node.parent(), sameInstance(root));
+    assertThat(node.parent(), equalTo(root));
   }
 
   @Test
@@ -61,15 +61,15 @@ class SimpleBinaryTreeTest {
 
     Node node = tree.insertNode(2, root, Side.LEFT);
 
-    assertThat(root.left(), sameInstance(node));
-    assertThat(root.right(), sameInstance(node10));
+    assertThat(root.left(), equalTo(node));
+    assertThat(root.right(), equalTo(node10));
 
     assertThat(node.data(), is(2L));
-    assertThat(node.left(), sameInstance(node1));
+    assertThat(node.left(), equalTo(node1));
     assertThat(node.right(), is(nullValue()));
-    assertThat(node.parent(), sameInstance(root));
+    assertThat(node.parent(), equalTo(root));
 
-    assertThat(node1.parent(), sameInstance(node));
+    assertThat(node1.parent(), equalTo(node));
   }
 
   @Test
@@ -79,12 +79,12 @@ class SimpleBinaryTreeTest {
     Node node = tree.insertNode(10, root, Side.RIGHT);
 
     assertThat(root.left(), is(nullValue()));
-    assertThat(root.right(), sameInstance(node));
+    assertThat(root.right(), equalTo(node));
 
     assertThat(node.data(), is(10L));
     assertThat(node.left(), is(nullValue()));
     assertThat(node.right(), is(nullValue()));
-    assertThat(node.parent(), sameInstance(root));
+    assertThat(node.parent(), equalTo(root));
   }
 
   @Test
@@ -96,15 +96,15 @@ class SimpleBinaryTreeTest {
 
     Node node = tree.insertNode(15, root, Side.RIGHT);
 
-    assertThat(root.left(), sameInstance(node1));
-    assertThat(root.right(), sameInstance(node));
+    assertThat(root.left(), equalTo(node1));
+    assertThat(root.right(), equalTo(node));
 
     assertThat(node.data(), is(15L));
     assertThat(node.left(), is(nullValue()));
-    assertThat(node.right(), sameInstance(node10));
-    assertThat(node.parent(), sameInstance(root));
+    assertThat(node.right(), equalTo(node10));
+    assertThat(node.parent(), equalTo(root));
 
-    assertThat(node10.parent(), sameInstance(node));
+    assertThat(node10.parent(), equalTo(node));
   }
 
   @Test
@@ -116,7 +116,7 @@ class SimpleBinaryTreeTest {
 
     tree.deleteNode(node10);
 
-    assertThat(root.left(), sameInstance(node1));
+    assertThat(root.left(), equalTo(node1));
     assertThat(root.right(), is(nullValue()));
   }
 
@@ -143,9 +143,9 @@ class SimpleBinaryTreeTest {
 
     tree.deleteNode(node10);
 
-    assertThat(root.left(), sameInstance(node1));
-    assertThat(root.right(), sameInstance(node8));
-    assertThat(node8.parent(), sameInstance(root));
+    assertThat(root.left(), equalTo(node1));
+    assertThat(root.right(), equalTo(node8));
+    assertThat(node8.parent(), equalTo(root));
   }
 
   @Test
@@ -160,9 +160,9 @@ class SimpleBinaryTreeTest {
 
     tree.deleteNode(node10);
 
-    assertThat(root.left(), sameInstance(node1));
-    assertThat(root.right(), sameInstance(node12));
-    assertThat(node12.parent(), sameInstance(root));
+    assertThat(root.left(), equalTo(node1));
+    assertThat(root.right(), equalTo(node12));
+    assertThat(node12.parent(), equalTo(root));
   }
 
   @Test
@@ -185,12 +185,12 @@ class SimpleBinaryTreeTest {
 
     tree.deleteNode(node10);
 
-    assertThat(root.left(), sameInstance(node1));
-    assertThat(root.right(), sameInstance(node8));
+    assertThat(root.left(), equalTo(node1));
+    assertThat(root.right(), equalTo(node8));
 
-    assertThat(node8.parent(), sameInstance(root));
-    assertThat(node9.right(), sameInstance(node12));
-    assertThat(node12.parent(), sameInstance(node9));
+    assertThat(node8.parent(), equalTo(root));
+    assertThat(node9.right(), equalTo(node12));
+    assertThat(node12.parent(), equalTo(node9));
   }
 
   @Test
@@ -213,12 +213,12 @@ class SimpleBinaryTreeTest {
 
     tree.deleteNode(node10);
 
-    assertThat(root.left(), sameInstance(node8));
-    assertThat(root.right(), sameInstance(node20));
+    assertThat(root.left(), equalTo(node8));
+    assertThat(root.right(), equalTo(node20));
 
-    assertThat(node8.parent(), sameInstance(root));
-    assertThat(node9.right(), sameInstance(node12));
-    assertThat(node12.parent(), sameInstance(node9));
+    assertThat(node8.parent(), equalTo(root));
+    assertThat(node9.right(), equalTo(node12));
+    assertThat(node12.parent(), equalTo(node9));
   }
 
   @Test
@@ -231,10 +231,10 @@ class SimpleBinaryTreeTest {
 
     tree.deleteNode(root);
 
-    assertThat(tree.getRoot(), sameInstance(node1));
+    assertThat(tree.getRoot(), equalTo(node1));
     assertThat(node1.parent(), is(nullValue()));
 
-    assertThat(tree.getRoot().right(), sameInstance(node10));
-    assertThat(node10.parent(), sameInstance(tree.getRoot()));
+    assertThat(tree.getRoot().right(), equalTo(node10));
+    assertThat(node10.parent(), equalTo(tree.getRoot()));
   }
 }
