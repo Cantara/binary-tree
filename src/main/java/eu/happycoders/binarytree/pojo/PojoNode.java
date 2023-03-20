@@ -7,7 +7,7 @@ import eu.happycoders.binarytree.Node;
  *
  * @author <a href="sven@happycoders.eu">Sven Woltmann</a>
  */
-public class PojoNode implements Node {
+class PojoNode implements Node {
 
   // also called "value" in a binary tree
   // also called "key" in a binary search tree

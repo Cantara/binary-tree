@@ -1,6 +1,6 @@
 package eu.happycoders.binarytree;
 
-import eu.happycoders.binarytree.pojo.PojoNodeFactory;
+import java.util.ServiceLoader;
 
 public interface NodeFactory {
 
@@ -9,6 +9,17 @@ public interface NodeFactory {
     Node nilNode();
 
     static NodeFactory defaultFactory() {
-        return new PojoNodeFactory();
+        NodeFactoryInitializer factoryInitializer = load("pojo");
+        return factoryInitializer.configure(factoryInitializer.defaultConfiguration());
+    }
+
+    static NodeFactoryInitializer load(String provider) {
+        return ServiceLoader.load(NodeFactoryInitializer.class)
+                .stream()
+                .filter(p -> p.type().isAnnotationPresent(NodeFactoryProviderName.class))
+                .filter(p -> p.type().getAnnotation(NodeFactoryProviderName.class).value().equals(provider))
+                .map(ServiceLoader.Provider::get)
+                .findFirst()
+                .orElseThrow();
     }
 }
