@@ -13,19 +13,19 @@ public interface BinarySearchTree extends BinaryTree {
    * @param key the search key
    * @return the node or <code>null</code> if no node with the given search key exists
    */
-  Node searchNode(int key);
+  Node searchNode(long key);
 
   /**
    * Inserts a node with the given key.
    *
    * @param key the key of the node to be inserted
    */
-  void insertNode(int key);
+  void insertNode(long key);
 
   /**
    * Deletes the node with the given key.
    *
    * @param key the key of the node to be deleted
    */
-  void deleteNode(int key);
+  void deleteNode(long key);
 }

@@ -10,7 +10,7 @@ import static java.lang.Math.max;
 public class AvlTree extends BinarySearchTreeRecursive {
 
   @Override
-  Node insertNode(int key, Node node) {
+  Node insertNode(long key, Node node) {
     node = super.insertNode(key, node);
 
     updateHeight(node);
@@ -19,7 +19,7 @@ public class AvlTree extends BinarySearchTreeRecursive {
   }
 
   @Override
-  Node deleteNode(int key, Node node) {
+  Node deleteNode(long key, Node node) {
     node = super.deleteNode(key, node);
 
     // Node is null if the tree doesn't contain the key
@@ -33,9 +33,9 @@ public class AvlTree extends BinarySearchTreeRecursive {
   }
 
   private void updateHeight(Node node) {
-    int leftChildHeight = height(node.left);
-    int rightChildHeight = height(node.right);
-    node.height = max(leftChildHeight, rightChildHeight) + 1;
+    int leftChildHeight = height(node.left());
+    int rightChildHeight = height(node.right());
+    node.height(max(leftChildHeight, rightChildHeight) + 1);
   }
 
   private Node rebalance(Node node) {
@@ -43,24 +43,24 @@ public class AvlTree extends BinarySearchTreeRecursive {
 
     // Left-heavy?
     if (balanceFactor < -1) {
-      if (balanceFactor(node.left) <= 0) {
+      if (balanceFactor(node.left()) <= 0) {
         // Rotate right
         node = rotateRight(node);
       } else {
         // Rotate left-right
-        node.left = rotateLeft(node.left);
+        node.left(rotateLeft(node.left()));
         node = rotateRight(node);
       }
     }
 
     // Right-heavy?
     if (balanceFactor > 1) {
-      if (balanceFactor(node.right) >= 0) {
+      if (balanceFactor(node.right()) >= 0) {
         // Rotate left
         node = rotateLeft(node);
       } else {
         // Rotate right-left
-        node.right = rotateRight(node.right);
+        node.right(rotateRight(node.right()));
         node = rotateLeft(node);
       }
     }
@@ -69,10 +69,10 @@ public class AvlTree extends BinarySearchTreeRecursive {
   }
 
   private Node rotateRight(Node node) {
-    Node leftChild = node.left;
+    Node leftChild = node.left();
 
-    node.left = leftChild.right;
-    leftChild.right = node;
+    node.left(leftChild.right());
+    leftChild.right(node);
 
     updateHeight(node);
     updateHeight(leftChild);
@@ -81,10 +81,10 @@ public class AvlTree extends BinarySearchTreeRecursive {
   }
 
   private Node rotateLeft(Node node) {
-    Node rightChild = node.right;
+    Node rightChild = node.right();
 
-    node.right = rightChild.left;
-    rightChild.left = node;
+    node.right(rightChild.left());
+    rightChild.left(node);
 
     updateHeight(node);
     updateHeight(rightChild);
@@ -93,17 +93,17 @@ public class AvlTree extends BinarySearchTreeRecursive {
   }
 
   private int balanceFactor(Node node) {
-    return height(node.right) - height(node.left);
+    return height(node.right()) - height(node.left());
   }
 
   private int height(Node node) {
-    return node != null ? node.height : -1;
+    return node != null ? node.height() : -1;
   }
 
   @Override
   protected void appendNodeToString(Node node, StringBuilder builder) {
     builder
-        .append(node.data)
+        .append(node.data())
         .append("[H=")
         .append(height(node))
         .append(", BF=")

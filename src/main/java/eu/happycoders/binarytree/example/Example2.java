@@ -15,7 +15,7 @@ import eu.happycoders.binarytree.SimpleBinaryTree.Side;
 })
 public class Example2 {
 
-  private static final NodeVisitor VISITOR = node -> System.out.print(node.getData() + " ");
+  private static final NodeVisitor VISITOR = node -> System.out.print(node.data() + " ");
 
   public static void main(String[] args) {
     SimpleBinaryTree tree = createSampleTree();

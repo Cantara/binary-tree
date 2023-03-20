@@ -30,8 +30,8 @@ public final class DepthFirstTraversalRecursive implements DepthFirstTraversal {
       return;
     }
     visitor.visit(node);
-    traversePreOrder(node.left, visitor);
-    traversePreOrder(node.right, visitor);
+    traversePreOrder(node.left(), visitor);
+    traversePreOrder(node.right(), visitor);
   }
 
   @Override
@@ -50,8 +50,8 @@ public final class DepthFirstTraversalRecursive implements DepthFirstTraversal {
     if (node == null) {
       return;
     }
-    traversePostOrder(node.left, visitor);
-    traversePostOrder(node.right, visitor);
+    traversePostOrder(node.left(), visitor);
+    traversePostOrder(node.right(), visitor);
     visitor.visit(node);
   }
 
@@ -70,9 +70,9 @@ public final class DepthFirstTraversalRecursive implements DepthFirstTraversal {
     if (node == null) {
       return;
     }
-    traverseInOrder(node.left, visitor);
+    traverseInOrder(node.left(), visitor);
     visitor.visit(node);
-    traverseInOrder(node.right, visitor);
+    traverseInOrder(node.right(), visitor);
   }
 
   @Override
@@ -91,8 +91,8 @@ public final class DepthFirstTraversalRecursive implements DepthFirstTraversal {
     if (node == null) {
       return;
     }
-    traverseReverseInOrder(node.right, visitor);
+    traverseReverseInOrder(node.right(), visitor);
     visitor.visit(node);
-    traverseReverseInOrder(node.left, visitor);
+    traverseReverseInOrder(node.left(), visitor);
   }
 }

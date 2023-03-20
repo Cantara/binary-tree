@@ -1,17 +1,18 @@
 package eu.happycoders.binarytree;
 
-import static eu.happycoders.binarytree.BinaryTreeAssert.assertThatTree;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.RepeatedTest;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
-import org.junit.jupiter.api.RepeatedTest;
+import java.util.stream.LongStream;
+
+import static eu.happycoders.binarytree.BinaryTreeAssert.assertThatTree;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 abstract class BinarySearchTreeTest {
 
@@ -20,7 +21,7 @@ abstract class BinarySearchTreeTest {
 
   @RepeatedTest(100)
   void insertingKeysShouldCreateAValidBSTWithKeysInOrder() {
-    List<Integer> keysOrdered = createOrderedSequenceOfKeys();
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
 
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
@@ -34,51 +35,51 @@ abstract class BinarySearchTreeTest {
 
   @RepeatedTest(100)
   void shouldThrowExceptionWhenInsertingExistingKey() {
-    List<Integer> keysOrdered = createOrderedSequenceOfKeys();
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
 
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
 
-    int randomKey = pickRandomKey(keysOrdered);
+    long randomKey = pickRandomKey(keysOrdered);
     assertThrows(IllegalArgumentException.class, () -> tree.insertNode(randomKey));
   }
 
   @RepeatedTest(100)
   void searchFindsAllKeys() {
-    List<Integer> keysOrdered = createOrderedSequenceOfKeys();
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
 
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
 
-    for (Integer key : keysOrdered) {
+    for (Long key : keysOrdered) {
       Node node = tree.searchNode(key);
-      assertThat(node.getData(), is(key));
+      assertThat(node.data(), is(key));
     }
   }
 
   @RepeatedTest(100)
   void searchReturnsNullWhenKeyNotFound() {
-    List<Integer> keysOrdered = createOrderedSequenceOfKeys();
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
 
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
 
-    Integer highestKey = keysOrdered.get(keysOrdered.size() - 1);
+    Long highestKey = keysOrdered.get(keysOrdered.size() - 1);
     assertThat(tree.searchNode(highestKey + 1), is(nullValue()));
   }
 
   @RepeatedTest(100)
   void deleteNodeShouldLeaveAValidBSTWithoutTheDeletedNode() {
-    List<Integer> keysOrdered = createOrderedSequenceOfKeys();
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
 
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
 
     // Remove every key... and after each key check if the BST is valid
-    List<Integer> keysToDelete = shuffle(keysOrdered);
-    List<Integer> keysRemaining = new ArrayList<>(keysOrdered);
+    List<Long> keysToDelete = shuffle(keysOrdered);
+    List<Long> keysRemaining = new ArrayList<>(keysOrdered);
 
-    for (Integer keyToDelete : keysToDelete) {
+    for (Long keyToDelete : keysToDelete) {
       tree.deleteNode(keyToDelete);
 
       keysRemaining.remove(keyToDelete);
@@ -93,8 +94,8 @@ abstract class BinarySearchTreeTest {
 
   @RepeatedTest(100)
   void deleteNotExistingKeyShouldNotChangeTheBST() {
-    List<Integer> keysOrdered = createOrderedSequenceOfKeys();
-    Integer highestKey = keysOrdered.get(keysOrdered.size() - 1);
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
+    Long highestKey = keysOrdered.get(keysOrdered.size() - 1);
 
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
@@ -117,25 +118,25 @@ abstract class BinarySearchTreeTest {
 
   protected abstract BinarySearchTree createBST();
 
-  private List<Integer> createOrderedSequenceOfKeys() {
+  private List<Long> createOrderedSequenceOfKeys() {
     int size = ThreadLocalRandom.current().nextInt(TEST_TREE_MIN_SIZE, TEST_TREE_MAX_SIZE);
-    return IntStream.range(0, size).boxed().toList();
+    return LongStream.range(0, size).boxed().toList();
   }
 
-  private void insertKeysInRandomOrder(BinarySearchTree tree, List<Integer> keysOrdered) {
-    List<Integer> keys = shuffle(keysOrdered);
-    for (Integer key : keys) {
+  private void insertKeysInRandomOrder(BinarySearchTree tree, List<Long> keysOrdered) {
+    List<Long> keys = shuffle(keysOrdered);
+    for (Long key : keys) {
       tree.insertNode(key);
     }
   }
 
-  private List<Integer> shuffle(List<Integer> keysOrdered) {
-    List<Integer> keys = new ArrayList<>(keysOrdered);
+  private List<Long> shuffle(List<Long> keysOrdered) {
+    List<Long> keys = new ArrayList<>(keysOrdered);
     Collections.shuffle(keys);
     return Collections.unmodifiableList(keys);
   }
 
-  private int pickRandomKey(List<Integer> keysOrdered) {
+  private long pickRandomKey(List<Long> keysOrdered) {
     int randomIndex = ThreadLocalRandom.current().nextInt(keysOrdered.size());
     return keysOrdered.get(randomIndex);
   }

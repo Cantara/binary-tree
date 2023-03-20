@@ -19,17 +19,17 @@ public final class BinarySearchTreeValidator {
     return isBstWithoutDuplicates(tree.getRoot(), Integer.MIN_VALUE, Integer.MAX_VALUE);
   }
 
-  private static boolean isBstWithoutDuplicates(Node node, int minAllowedKey, int maxAllowedKey) {
+  private static boolean isBstWithoutDuplicates(Node node, long minAllowedKey, long maxAllowedKey) {
     if (node == null) {
       return true;
     }
 
-    if (node.data < minAllowedKey || node.data > maxAllowedKey) {
+    if (node.data() < minAllowedKey || node.data() > maxAllowedKey) {
       return false;
     }
 
-    return isBstWithoutDuplicates(node.left, minAllowedKey, node.data - 1)
-        && isBstWithoutDuplicates(node.right, node.data + 1, maxAllowedKey);
+    return isBstWithoutDuplicates(node.left(), minAllowedKey, node.data() - 1)
+        && isBstWithoutDuplicates(node.right(), node.data() + 1, maxAllowedKey);
   }
 
   /**
@@ -42,16 +42,16 @@ public final class BinarySearchTreeValidator {
     return isBstWithDuplicates(tree.getRoot(), Integer.MIN_VALUE, Integer.MAX_VALUE);
   }
 
-  private static boolean isBstWithDuplicates(Node node, int minAllowedKey, int maxAllowedKey) {
+  private static boolean isBstWithDuplicates(Node node, long minAllowedKey, long maxAllowedKey) {
     if (node == null) {
       return true;
     }
 
-    if (node.data < minAllowedKey || node.data > maxAllowedKey) {
+    if (node.data() < minAllowedKey || node.data() > maxAllowedKey) {
       return false;
     }
 
-    return isBstWithDuplicates(node.left, minAllowedKey, node.data)
-        && isBstWithDuplicates(node.right, node.data, maxAllowedKey);
+    return isBstWithDuplicates(node.left(), minAllowedKey, node.data())
+        && isBstWithDuplicates(node.right(), node.data(), maxAllowedKey);
   }
 }

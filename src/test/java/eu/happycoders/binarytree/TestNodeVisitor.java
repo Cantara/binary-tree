@@ -5,14 +5,14 @@ import java.util.List;
 
 public class TestNodeVisitor implements NodeVisitor {
 
-  private List<Integer> dataList = new ArrayList<>();
+  private List<Long> dataList = new ArrayList<>();
 
   @Override
   public void visit(Node node) {
-    dataList.add(node.data);
+    dataList.add(node.data());
   }
 
-  public List<Integer> getDataList() {
+  public List<Long> getDataList() {
     return dataList;
   }
 }

@@ -1,9 +1,9 @@
 package eu.happycoders.binarytree;
 
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-
-import java.util.List;
 
 public class BinaryTreeAssert {
 
@@ -24,7 +24,7 @@ public class BinaryTreeAssert {
     return this;
   }
 
-  public BinaryTreeAssert hasKeysInGivenOrder(List<Integer> keys) {
+  public BinaryTreeAssert hasKeysInGivenOrder(List<Long> keys) {
     TestNodeVisitor visitor = new TestNodeVisitor();
     new DepthFirstTraversalRecursive(tree).traverseInOrder(visitor);
     assertThat(visitor.getDataList(), is(keys));
@@ -41,30 +41,30 @@ public class BinaryTreeAssert {
 
     // Root must not have a parent
     if (node == tree.getRoot()) {
-      if (node.parent != null) {
+      if (node.parent() != null) {
         throw new AssertionError("Not all parents set correctly: root must not have a parent");
       }
     }
 
     // All other nodes must have a parent
     else {
-      if (node.parent == null) {
+      if (node.parent() == null) {
         throw new AssertionError(
-            "Not all parents set correctly: node " + node.data + " has no parent");
+            "Not all parents set correctly: node " + node.data() + " has no parent");
       }
 
-      if (node.parent != parent) {
+      if (node.parent() != parent) {
         throw new AssertionError(
             "Not all parents set correctly: parent "
-                + node.parent.data
+                + node.parent().data()
                 + " of node "
-                + node.data
+                + node.data()
                 + " isn't the expected parent "
-                + parent.data);
+                + parent.data());
       }
     }
 
-    hasAllParentsSetCorrectly(node, node.left);
-    hasAllParentsSetCorrectly(node, node.right);
+    hasAllParentsSetCorrectly(node, node.left());
+    hasAllParentsSetCorrectly(node, node.right());
   }
 }

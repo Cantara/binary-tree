@@ -1,5 +1,6 @@
 package eu.happycoders.binarytree;
 
+
 import static eu.happycoders.binarytree.BinaryTreeAssert.assertThatTree;
 import static eu.happycoders.binarytree.RedBlackTree.BLACK;
 import static eu.happycoders.binarytree.RedBlackTree.RED;
@@ -47,19 +48,19 @@ class RedBlackTreeTest extends BinarySearchTreeTest {
     }
 
     // Count black nodes on path
-    if (node.color == BLACK) {
+    if (node.color() == BLACK) {
       blackHeightThisPath++;
     }
 
     // Red node must not have a red parent
-    else if (parent != null && parent.color == RED) {
+    else if (parent != null && parent.color() == RED) {
       throw new AssertionError(
-          "Node " + node.data + " and its parent " + parent.data + " are both red");
+          "Node " + node.data() + " and its parent " + parent.data() + " are both red");
     }
 
     // We're using the simplified approach of not forcing the root to be black
-    validateRedBlackInvariant(node, node.left, blackHeightThisPath, blackHeightFirstPath);
-    validateRedBlackInvariant(node, node.right, blackHeightThisPath, blackHeightFirstPath);
+    validateRedBlackInvariant(node, node.left(), blackHeightThisPath, blackHeightFirstPath);
+    validateRedBlackInvariant(node, node.right(), blackHeightThisPath, blackHeightFirstPath);
   }
 
   private static class MutableValueContainer {

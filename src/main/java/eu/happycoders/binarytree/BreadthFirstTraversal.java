@@ -45,11 +45,11 @@ public final class BreadthFirstTraversal {
       Node node = queue.poll();
       visitor.visit(node);
 
-      if (node.left != null) {
-        queue.add(node.left);
+      if (node.left() != null) {
+        queue.add(node.left());
       }
-      if (node.right != null) {
-        queue.add(node.right);
+      if (node.right() != null) {
+        queue.add(node.right());
       }
     }
   }

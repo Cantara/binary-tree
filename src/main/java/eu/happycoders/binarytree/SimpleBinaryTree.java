@@ -21,7 +21,7 @@ public class SimpleBinaryTree extends BaseBinaryTree {
    *
    * @param value the value of the node to be inserted
    */
-  public Node insertRoot(int value) {
+  public Node insertRoot(long value) {
     if (root != null) {
       throw new IllegalStateException("Root already defined");
     }
@@ -39,27 +39,27 @@ public class SimpleBinaryTree extends BaseBinaryTree {
    * @param parent the parent under which to insert the new node
    * @param side whether to insert the node as left or right child
    */
-  public Node insertNode(int value, Node parent, Side side) {
+  public Node insertNode(long value, Node parent, Side side) {
     Objects.requireNonNull(parent);
     var node = new Node(value);
 
-    node.parent = parent;
+    node.parent(parent);
 
     switch (side) {
       case LEFT -> {
-        if (parent.left != null) {
-          node.left = parent.left;
-          node.left.parent = node; // Is this correct?
+        if (parent.left() != null) {
+          node.left(parent.left());
+          node.left().parent(node); // Is this correct?
         }
-        parent.left = node;
+        parent.left(node);
       }
 
       case RIGHT -> {
-        if (parent.right != null) {
-          node.right = parent.right;
-          node.right.parent = node; // Is this correct?
+        if (parent.right() != null) {
+          node.right(parent.right());
+          node.right().parent(node); // Is this correct?
         }
-        parent.right = node;
+        parent.right(node);
       }
 
       default -> throw new IllegalStateException();
@@ -74,24 +74,24 @@ public class SimpleBinaryTree extends BaseBinaryTree {
    * @param node the node to be deleted
    */
   public void deleteNode(Node node) {
-    if (node.parent == null && node != root) {
+    if (node.parent() == null && node != root) {
       throw new IllegalStateException("Node has no parent and is not root");
     }
 
     // Case A: Node has no children --> set node to null in parent
-    if (node.left == null && node.right == null) {
+    if (node.left() == null && node.right() == null) {
       setParentsChild(node, null);
     }
 
     // Case B: Node has one child --> replace node by node's child in parent
     // Case B1: Node has only left child
-    else if (node.right == null) {
-      setParentsChild(node, node.left);
+    else if (node.right() == null) {
+      setParentsChild(node, node.left());
     }
 
     // Case B2: Node has only right child
-    else if (node.left == null) {
-      setParentsChild(node, node.right);
+    else if (node.left() == null) {
+      setParentsChild(node, node.right());
     }
 
     // Case C: Node has two children
@@ -100,9 +100,9 @@ public class SimpleBinaryTree extends BaseBinaryTree {
     }
 
     // Remove all references from the deleted node
-    node.parent = null;
-    node.left = null;
-    node.right = null;
+    node.parent(null);
+    node.left(null);
+    node.right(null);
   }
 
   /**
@@ -114,20 +114,20 @@ public class SimpleBinaryTree extends BaseBinaryTree {
    * @param node the node to remove
    */
   private void removeNodeWithTwoChildren(Node node) {
-    Node leftTree = node.left;
-    Node rightTree = node.right;
+    Node leftTree = node.left();
+    Node rightTree = node.right();
 
     setParentsChild(node, leftTree);
 
     // find right-most child of left tree
     Node rightMostChildOfLeftTree = leftTree;
-    while (rightMostChildOfLeftTree.right != null) {
-      rightMostChildOfLeftTree = rightMostChildOfLeftTree.right;
+    while (rightMostChildOfLeftTree.right() != null) {
+      rightMostChildOfLeftTree = rightMostChildOfLeftTree.right();
     }
 
     // append right tree to right child
-    rightMostChildOfLeftTree.right = rightTree;
-    rightTree.parent = rightMostChildOfLeftTree;
+    rightMostChildOfLeftTree.right(rightTree);
+    rightTree.parent(rightMostChildOfLeftTree);
   }
 
   private void setParentsChild(Node node, Node child) {
@@ -135,26 +135,26 @@ public class SimpleBinaryTree extends BaseBinaryTree {
     if (node == root) {
       root = child;
       if (child != null) {
-        child.parent = null;
+        child.parent(null);
       }
       return;
     }
 
     // Am I the left or right child of my parent?
-    if (node.parent.left == node) {
-      node.parent.left = child;
-    } else if (node.parent.right == node) {
-      node.parent.right = child;
+    if (node.parent().left() == node) {
+      node.parent().left(child);
+    } else if (node.parent().right() == node) {
+      node.parent().right(child);
     } else {
       throw new IllegalStateException(
           "Node "
-              + node.data
+              + node.data()
               + " is neither a left nor a right child of its parent "
-              + node.parent.data);
+              + node.parent().data());
     }
 
     if (child != null) {
-      child.parent = node.parent;
+      child.parent(node.parent());
     }
   }
 }

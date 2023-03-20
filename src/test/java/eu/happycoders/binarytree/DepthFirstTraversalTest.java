@@ -1,12 +1,12 @@
 package eu.happycoders.binarytree;
 
+import org.junit.jupiter.api.Test;
+
 import static eu.happycoders.binarytree.TestTree.emptyTree;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-
-import org.junit.jupiter.api.Test;
 
 public abstract class DepthFirstTraversalTest {
 

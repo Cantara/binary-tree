@@ -7,6 +7,7 @@ import eu.happycoders.binarytree.BinarySearchTreeRecursive;
 import eu.happycoders.binarytree.DepthFirstTraversalRecursive;
 import eu.happycoders.binarytree.Node;
 import eu.happycoders.binarytree.NodeVisitor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class Example3 {
 
   private static final Integer[] KEYS = new Integer[] {1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 15, 16};
 
-  private static final NodeVisitor VISITOR = node -> System.out.print(node.getData() + " ");
+  private static final NodeVisitor VISITOR = node -> System.out.print(node.data() + " ");
 
   public static void main(String[] args) {
     runDemoWith(new BinarySearchTreeRecursive());
@@ -47,7 +48,7 @@ public class Example3 {
 
     for (int key : KEYS) {
       Node node = tree.searchNode(key);
-      System.out.println("key = " + key + " --> node.data = " + node.getData());
+      System.out.println("key = " + key + " --> node.data = " + node.data());
     }
   }
 }

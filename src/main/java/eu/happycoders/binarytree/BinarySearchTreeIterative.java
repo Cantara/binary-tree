@@ -8,15 +8,15 @@ package eu.happycoders.binarytree;
 public class BinarySearchTreeIterative extends BaseBinaryTree implements BinarySearchTree {
 
   @Override
-  public Node searchNode(int key) {
+  public Node searchNode(long key) {
     Node node = root;
     while (node != null) {
-      if (key == node.data) {
+      if (key == node.data()) {
         return node;
-      } else if (key < node.data) {
-        node = node.left;
+      } else if (key < node.data()) {
+        node = node.left();
       } else {
-        node = node.right;
+        node = node.right();
       }
     }
 
@@ -24,7 +24,7 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
   }
 
   @Override
-  public void insertNode(int key) {
+  public void insertNode(long key) {
     Node newNode = new Node(key);
 
     if (root == null) {
@@ -35,22 +35,22 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
     Node node = root;
     while (true) {
       // Traverse the tree to the left or right depending on the key
-      if (key < node.data) {
-        if (node.left != null) {
+      if (key < node.data()) {
+        if (node.left() != null) {
           // Left sub-tree exists --> follow
-          node = node.left;
+          node = node.left();
         } else {
           // Left sub-tree does not exist --> insert new node as left child
-          node.left = newNode;
+          node.left(newNode);
           return;
         }
-      } else if (key > node.data) {
-        if (node.right != null) {
+      } else if (key > node.data()) {
+        if (node.right() != null) {
           // Right sub-tree exists --> follow
-          node = node.right;
+          node = node.right();
         } else {
           // Right sub-tree does not exist --> insert new node as right child
-          node.right = newNode;
+          node.right(newNode);
           return;
         }
       } else {
@@ -61,18 +61,18 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
 
   @Override
   @SuppressWarnings("squid:S2259") // parent won't be null as it's used only if node != root
-  public void deleteNode(int key) {
+  public void deleteNode(long key) {
     Node node = root;
     Node parent = null;
 
     // Find the node to be deleted
-    while (node != null && node.data != key) {
+    while (node != null && node.data() != key) {
       // Traverse the tree to the left or right depending on the key
       parent = node;
-      if (key < node.data) {
-        node = node.left;
+      if (key < node.data()) {
+        node = node.left();
       } else {
-        node = node.right;
+        node = node.right();
       }
     }
 
@@ -84,7 +84,7 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
     // At this point, "node" is the node to be deleted
 
     // Node has at most one child --> replace node by its single child
-    if (node.left == null || node.right == null) {
+    if (node.left() == null || node.right() == null) {
       deleteNodeWithZeroOrOneChild(key, node, parent);
     }
 
@@ -94,43 +94,43 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
     }
   }
 
-  private void deleteNodeWithZeroOrOneChild(int key, Node node, Node parent) {
-    Node singleChild = node.left != null ? node.left : node.right;
+  private void deleteNodeWithZeroOrOneChild(long key, Node node, Node parent) {
+    Node singleChild = node.left() != null ? node.left() : node.right();
 
     if (node == root) {
       root = singleChild;
-    } else if (key < parent.data) {
-      parent.left = singleChild;
+    } else if (key < parent.data()) {
+      parent.left(singleChild);
     } else {
-      parent.right = singleChild;
+      parent.right(singleChild);
     }
   }
 
   private void deleteNodeWithTwoChildren(Node node) {
     // Find minimum node of right subtree ("inorder successor" of current node)
-    Node inOrderSuccessor = node.right;
+    Node inOrderSuccessor = node.right();
     Node inOrderSuccessorParent = node;
-    while (inOrderSuccessor.left != null) {
+    while (inOrderSuccessor.left() != null) {
       inOrderSuccessorParent = inOrderSuccessor;
-      inOrderSuccessor = inOrderSuccessor.left;
+      inOrderSuccessor = inOrderSuccessor.left();
     }
 
     // Copy inorder successor's data to current node
-    node.data = inOrderSuccessor.data;
+    node.data(inOrderSuccessor.data());
 
     // Delete inorder successor
 
     // Case a) Inorder successor is the deleted node's right child
-    if (inOrderSuccessor == node.right) {
+    if (inOrderSuccessor == node.right()) {
       // --> Replace right child with inorder successor's right child
-      node.right = inOrderSuccessor.right;
+      node.right(inOrderSuccessor.right());
     }
 
     // Case b) Inorder successor is further down, meaning, it's a left child
     else {
       // --> Replace inorder successor's parent's left child
       //     with inorder successor's right child
-      inOrderSuccessorParent.left = inOrderSuccessor.right;
+      inOrderSuccessorParent.left(inOrderSuccessor.right());
     }
   }
 }

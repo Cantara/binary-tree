@@ -31,11 +31,11 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty()) {
       node = stack.poll();
       visitor.visit(node);
-      if (node.right != null) {
-        stack.push(node.right);
+      if (node.right() != null) {
+        stack.push(node.right());
       }
-      if (node.left != null) {
-        stack.push(node.left);
+      if (node.left() != null) {
+        stack.push(node.left());
       }
     }
   }
@@ -52,11 +52,11 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty() || node != null) {
       if (node != null) {
         stack.push(node);
-        node = node.left;
+        node = node.left();
       } else {
         Node topNode = stack.peek();
-        if (topNode.right != null && lastVisitedNode != topNode.right) {
-          node = topNode.right;
+        if (topNode.right() != null && lastVisitedNode != topNode.right()) {
+          node = topNode.right();
         } else {
           visitor.visit(topNode);
           lastVisitedNode = stack.poll();
@@ -76,11 +76,11 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty() || node != null) {
       if (node != null) {
         stack.push(node);
-        node = node.left;
+        node = node.left();
       } else {
         node = stack.pop();
         visitor.visit(node);
-        node = node.right;
+        node = node.right();
       }
     }
   }
@@ -96,11 +96,11 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty() || node != null) {
       if (node != null) {
         stack.push(node);
-        node = node.right;
+        node = node.right();
       } else {
         node = stack.pop();
         visitor.visit(node);
-        node = node.left;
+        node = node.left();
       }
     }
   }
