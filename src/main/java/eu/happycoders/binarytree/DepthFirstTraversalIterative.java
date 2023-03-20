@@ -55,7 +55,7 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
         node = node.left();
       } else {
         Node topNode = stack.peek();
-        if (topNode.right() != null && lastVisitedNode != topNode.right()) {
+        if (topNode.right() != null && !topNode.right().equals(lastVisitedNode)) {
           node = topNode.right();
         } else {
           visitor.visit(topNode);

@@ -32,7 +32,7 @@ public class BinarySearchTreeRecursiveWithParent extends BinarySearchTreeRecursi
     Node newNode = super.deleteNode(key, node);
 
     // Set parents
-    if (newNode != null && node != null && (newNode == node.right() || newNode == node.left())) {
+    if (newNode != null && node != null && (newNode.equals(node.right()) || newNode.equals(node.left()))) {
       newNode.parent(node.parent());
     }
 

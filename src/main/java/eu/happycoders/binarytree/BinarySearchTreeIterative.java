@@ -103,7 +103,7 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
   private void deleteNodeWithZeroOrOneChild(long key, Node node, Node parent) {
     Node singleChild = node.left() != null ? node.left() : node.right();
 
-    if (node == root) {
+    if (node.equals(root)) {
       root = singleChild;
     } else if (key < parent.data()) {
       parent.left(singleChild);
@@ -127,7 +127,7 @@ public class BinarySearchTreeIterative extends BaseBinaryTree implements BinaryS
     // Delete inorder successor
 
     // Case a) Inorder successor is the deleted node's right child
-    if (inOrderSuccessor == node.right()) {
+    if (inOrderSuccessor.equals(node.right())) {
       // --> Replace right child with inorder successor's right child
       node.right(inOrderSuccessor.right());
     }

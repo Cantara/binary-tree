@@ -81,7 +81,7 @@ public class SimpleBinaryTree extends BaseBinaryTree {
    * @param node the node to be deleted
    */
   public void deleteNode(Node node) {
-    if (node.parent() == null && node != root) {
+    if (node.parent() == null && !node.equals(root)) {
       throw new IllegalStateException("Node has no parent and is not root");
     }
 
@@ -139,7 +139,7 @@ public class SimpleBinaryTree extends BaseBinaryTree {
 
   private void setParentsChild(Node node, Node child) {
     // Node is root? Has no parent, set root reference instead
-    if (node == root) {
+    if (node.equals(root)) {
       root = child;
       if (child != null) {
         child.parent(null);
@@ -148,9 +148,9 @@ public class SimpleBinaryTree extends BaseBinaryTree {
     }
 
     // Am I the left or right child of my parent?
-    if (node.parent().left() == node) {
+    if (node.equals(node.parent().left())) {
       node.parent().left(child);
-    } else if (node.parent().right() == node) {
+    } else if (node.equals(node.parent().right())) {
       node.parent().right(child);
     } else {
       throw new IllegalStateException(
