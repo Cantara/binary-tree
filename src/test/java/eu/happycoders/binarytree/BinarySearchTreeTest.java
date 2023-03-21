@@ -140,4 +140,42 @@ abstract class BinarySearchTreeTest {
     int randomIndex = ThreadLocalRandom.current().nextInt(keysOrdered.size());
     return keysOrdered.get(randomIndex);
   }
+
+  @RepeatedTest(100)
+  void inOrderSuccessor() {
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
+    var tree = createBST();
+    insertKeysInRandomOrder(tree, keysOrdered);
+
+    for (int i=0; i < keysOrdered.size() - 1; i++) {
+      Long current = keysOrdered.get(i);
+      Long next = keysOrdered.get(i + 1);
+      Node node = BinarySearchTree.inOrderSuccessor(tree.getRoot(), tree.searchNode(current));
+      assertThat(node.data(), is(next));
+    }
+    {
+      Long lastKey = keysOrdered.get(keysOrdered.size() - 1);
+      Node node = BinarySearchTree.inOrderSuccessor(tree.getRoot(), tree.searchNode(lastKey));
+      assertThat(node, nullValue());
+    }
+  }
+
+  @RepeatedTest(100)
+  void inOrderPredecessor() {
+    List<Long> keysOrdered = createOrderedSequenceOfKeys();
+    var tree = createBST();
+    insertKeysInRandomOrder(tree, keysOrdered);
+
+    {
+      Long firstKey = keysOrdered.get(0);
+      Node node = BinarySearchTree.inOrderPredecessor(tree.getRoot(), tree.searchNode(firstKey));
+      assertThat(node, nullValue());
+    }
+    for (int i=1; i < keysOrdered.size(); i++) {
+      Long current = keysOrdered.get(i);
+      Long prev = keysOrdered.get(i - 1);
+      Node node = BinarySearchTree.inOrderPredecessor(tree.getRoot(), tree.searchNode(current));
+      assertThat(node.data(), is(prev));
+    }
+  }
 }
