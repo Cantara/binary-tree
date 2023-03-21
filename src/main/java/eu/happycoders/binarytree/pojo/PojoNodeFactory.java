@@ -3,9 +3,9 @@ package eu.happycoders.binarytree.pojo;
 import eu.happycoders.binarytree.Node;
 import eu.happycoders.binarytree.NodeFactory;
 
-class PojoNodeFactory implements NodeFactory {
+public class PojoNodeFactory implements NodeFactory {
 
-    PojoNodeFactory() {
+    public PojoNodeFactory() {
     }
 
     @Override
