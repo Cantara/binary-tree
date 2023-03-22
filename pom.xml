@@ -19,31 +19,12 @@
 
     <!-- Plugin versions -->
     <surefire-plugin.version>3.0.0</surefire-plugin.version>
-    <spotless.version>2.35.0</spotless.version>
-    <google-java-format.version>1.10.0</google-java-format.version>
-    <jacoco.version>0.8.8</jacoco.version>
-    <spotbugs.version>4.7.3.2</spotbugs.version>
-    <findsecbugs.version>1.12.0</findsecbugs.version>
-    <pmd-plugin.version>3.19.0</pmd-plugin.version>
-    <pmd.version>6.54.0</pmd.version>
-    <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
-    <checkstyle.version>10.9.1</checkstyle.version>
-
-    <!-- SonarCloud setup -->
-    <sonar.projectKey>SvenWoltmann_binary-tree</sonar.projectKey>
-    <sonar.organization>svenwoltmann</sonar.organization>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
-    <sonar.java.spotbugs.reportPaths>./target/spotbugsXml.xml</sonar.java.spotbugs.reportPaths>
-    <sonar.java.pmd.reportPaths>./target/pmd.xml</sonar.java.pmd.reportPaths>
-    <sonar.java.checkstyle.reportPaths>./target/checkstyle-result.xml</sonar.java.checkstyle.reportPaths>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <scm>
-    <developerConnection>scm:git:ssh://git@github.com/Cantara/xorcery.git</developerConnection>
-    <connection>scm:git:https://github.com/Cantara/xorcery.git</connection>
-    <url>https://github.com/Cantara/xorcery</url>
+    <developerConnection>scm:git:ssh://git@github.com/Cantara/binary-tree.git</developerConnection>
+    <connection>scm:git:https://github.com/Cantara/binary-tree.git</connection>
+    <url>https://github.com/Cantara/binary-tree</url>
     <tag>HEAD</tag>
   </scm>
 
