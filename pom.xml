@@ -4,7 +4,7 @@
 
   <groupId>no.cantara.binarytree</groupId>
   <artifactId>binary-tree</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,7 +23,7 @@
     <developerConnection>scm:git:ssh://git@github.com/Cantara/binary-tree.git</developerConnection>
     <connection>scm:git:https://github.com/Cantara/binary-tree.git</connection>
     <url>https://github.com/Cantara/binary-tree</url>
-    <tag>HEAD</tag>
+    <tag>binary-tree-1.1</tag>
   </scm>
 
   <dependencies>
