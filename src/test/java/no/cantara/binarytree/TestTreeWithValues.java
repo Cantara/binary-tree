@@ -1,9 +1,5 @@
 package no.cantara.binarytree;
 
-import no.cantara.binarytree.BinaryTree;
-import no.cantara.binarytree.Node;
-import no.cantara.binarytree.NodeFactory;
-
 public class TestTreeWithValues implements BinaryTree {
 
   private static final Node ROOT;

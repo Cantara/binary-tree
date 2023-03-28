@@ -17,7 +17,7 @@ class PojoNode implements Node {
   private PojoNode right;
   private PojoNode parent; // used in SimpleBinaryTree + red-black tree
 
-  private int height; // used in AVL tree
+  private int height = -1000; // used in AVL tree, defaults to a value that will not be seen in real use to easily identify whether it has been updated.
   private boolean color; // used in red-black tree
 
   /**
@@ -98,5 +98,15 @@ class PojoNode implements Node {
   @Override
   public boolean isNil() {
     return false;
+  }
+
+  @Override
+  public void delete() {
+    // no action needed, jvm garbage collection will take care of it
+  }
+
+  @Override
+  public void copyNonNavigableStateFrom(Node source) {
+    // nothing to do, pojo implementation has no addition state
   }
 }

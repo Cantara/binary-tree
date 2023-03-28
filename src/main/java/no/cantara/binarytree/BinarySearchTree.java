@@ -19,15 +19,17 @@ public interface BinarySearchTree extends BinaryTree {
      * Inserts a node with the given key.
      *
      * @param key the key of the node to be inserted
+     * @return the inserted node
      */
-    void insertNode(long key);
+    Node insertNode(long key);
 
     /**
      * Deletes the node with the given key.
      *
      * @param key the key of the node to be deleted
+     * @return the deleted node or <code>null</code> if no node with the given key exists
      */
-    void deleteNode(long key);
+    Node deleteNode(long key);
 
     static Node inOrderSuccessor(Node root, Node n) {
         if (n.right() != null) {

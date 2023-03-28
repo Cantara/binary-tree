@@ -13,8 +13,8 @@ public class BinarySearchTreeRecursiveWithParent extends BinarySearchTreeRecursi
   }
 
   @Override
-  Node insertNode(long key, Node node) {
-    node = super.insertNode(key, node);
+  Node insertNode(long key, Node node, InsertionContext ctx) {
+    node = super.insertNode(key, node, ctx);
 
     // Set parents
     if (node.left() != null) {
@@ -28,8 +28,8 @@ public class BinarySearchTreeRecursiveWithParent extends BinarySearchTreeRecursi
   }
 
   @Override
-  Node deleteNode(long key, Node node) {
-    Node newNode = super.deleteNode(key, node);
+  Node deleteNode(long key, Node node, Node parent, boolean nodeIsLeftChildOfParent, DeletionContext ctx) {
+    Node newNode = super.deleteNode(key, node, parent, nodeIsLeftChildOfParent, ctx);
 
     // Set parents
     if (newNode != null && node != null && (newNode.equals(node.right()) || newNode.equals(node.left()))) {

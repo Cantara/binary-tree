@@ -35,7 +35,7 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
   // -- Insertion ----------------------------------------------------------------------------------
 
   @Override
-  public void insertNode(long key) {
+  public Node insertNode(long key) {
     Node node = root;
     Node parent = null;
 
@@ -64,6 +64,8 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
     newNode.parent(parent);
 
     fixRedBlackPropertiesAfterInsert(newNode);
+
+    return newNode;
   }
 
   @SuppressWarnings("squid:S125") // Ignore SonarCloud complains about commented code line 70.
@@ -170,7 +172,7 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
 
   @SuppressWarnings("squid:S2259") // SonarCloud issues an incorrect potential NPE warning
   @Override
-  public void deleteNode(long key) {
+  public Node deleteNode(long key) {
     Node node = root;
 
     // Find the node to be deleted
@@ -185,7 +187,7 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
 
     // Node not found?
     if (node == null) {
-      return;
+      return null;
     }
 
     // At this point, "node" is the node to be deleted
@@ -222,6 +224,8 @@ public class RedBlackTree extends BaseBinaryTree implements BinarySearchTree {
         replaceParentsChild(movedUpNode.parent(), movedUpNode, null);
       }
     }
+
+    return node;
   }
 
   private Node deleteNodeWithZeroOrOneChild(Node node) {

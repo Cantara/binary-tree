@@ -5,6 +5,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.LongStream;
 
@@ -19,6 +20,8 @@ abstract class BinarySearchTreeTest {
   private static final int TEST_TREE_MIN_SIZE = 1;
   private static final int TEST_TREE_MAX_SIZE = 1000;
 
+  private static final boolean KEEP_PRINTED_TREE_STATE_BEFORE_FAIL = false; // change this to false when tests fail to identify tree state before failure
+
   @RepeatedTest(100)
   void insertingKeysShouldCreateAValidBSTWithKeysInOrder() {
     List<Long> keysOrdered = createOrderedSequenceOfKeys();
@@ -26,7 +29,7 @@ abstract class BinarySearchTreeTest {
     var tree = createBST();
     insertKeysInRandomOrder(tree, keysOrdered);
 
-    assertThatTree(tree) //
+    assertThatTree(tree)
         .isValid()
         .hasKeysInGivenOrder(keysOrdered);
 
@@ -79,16 +82,32 @@ abstract class BinarySearchTreeTest {
     List<Long> keysToDelete = shuffle(keysOrdered);
     List<Long> keysRemaining = new ArrayList<>(keysOrdered);
 
+    StringBuilder sb = new StringBuilder();
     for (Long keyToDelete : keysToDelete) {
+      sb.setLength(0);
+      if (KEEP_PRINTED_TREE_STATE_BEFORE_FAIL) {
+        TreePrinter.print(tree.getRoot(), sb);
+      }
+
       tree.deleteNode(keyToDelete);
 
       keysRemaining.remove(keyToDelete);
 
-      assertThatTree(tree) //
-          .isValid()
-          .hasKeysInGivenOrder(keysRemaining);
+      try {
+        assertThatTree(tree)
+                .isValid()
+                .hasKeysInGivenOrder(keysRemaining);
 
-      assertSpecificTreeInvariants(tree);
+        assertSpecificTreeInvariants(tree);
+      } catch (Throwable t) {
+        System.out.printf(" ::: GOOD STATE BEFORE DELETE :::%n");
+        System.out.printf("%s", sb);
+        System.out.println();
+        System.out.printf("Key to delete: " + keyToDelete);
+        System.out.printf(" ::: BAD STATE AFTER DELETE :::%n");
+        TreePrinter.print(tree.getRoot());
+        throw t;
+      }
     }
   }
 
@@ -102,7 +121,7 @@ abstract class BinarySearchTreeTest {
 
     tree.deleteNode(highestKey + 1);
 
-    assertThatTree(tree) //
+    assertThatTree(tree)
         .isValid()
         .hasKeysInGivenOrder(keysOrdered);
 
@@ -118,19 +137,52 @@ abstract class BinarySearchTreeTest {
 
   protected abstract BinarySearchTree createBST();
 
-  private List<Long> createOrderedSequenceOfKeys() {
+  protected List<Long> createOrderedSequenceOfKeys() {
     int size = ThreadLocalRandom.current().nextInt(TEST_TREE_MIN_SIZE, TEST_TREE_MAX_SIZE);
     return LongStream.range(0, size).boxed().toList();
   }
 
-  private void insertKeysInRandomOrder(BinarySearchTree tree, List<Long> keysOrdered) {
+  protected void insertKeysInRandomOrder(BinarySearchTree tree, List<Long> keysOrdered) {
     List<Long> keys = shuffle(keysOrdered);
+    List<Long> insertedKeys = new ArrayList<>();
+    TreeSet<Long> insertedKeysSorted = new TreeSet<>();
+    StringBuilder sb = new StringBuilder();
     for (Long key : keys) {
-      tree.insertNode(key);
+      sb.setLength(0);
+      if (KEEP_PRINTED_TREE_STATE_BEFORE_FAIL) {
+        TreePrinter.print(tree.getRoot(), sb);
+      }
+      Node node = tree.insertNode(key);
+      assertThat(key, is(node.data()));
+      insertedKeys.add(key);
+      insertedKeysSorted.add(key);
+
+      if (KEEP_PRINTED_TREE_STATE_BEFORE_FAIL) {
+        try {
+          assertThatTree(tree)
+                  .isValid()
+                  .hasKeysInGivenOrder(insertedKeysSorted.stream().toList());
+
+          assertSpecificTreeInvariants(tree);
+        } catch (Throwable t) {
+          System.out.printf(" ::: GOOD STATE BEFORE INSERT :::%n");
+          System.out.printf("%s", sb);
+          System.out.println();
+          System.out.printf("Key to insert: " + key);
+          System.out.printf(" ::: BAD STATE AFTER INSERT :::%n");
+          TreePrinter.print(tree.getRoot());
+          throw t;
+        }
+      }
     }
+    assertThatTree(tree)
+            .isValid()
+            .hasKeysInGivenOrder(insertedKeysSorted.stream().toList());
+
+    assertSpecificTreeInvariants(tree);
   }
 
-  private List<Long> shuffle(List<Long> keysOrdered) {
+  protected List<Long> shuffle(List<Long> keysOrdered) {
     List<Long> keys = new ArrayList<>(keysOrdered);
     Collections.shuffle(keys);
     return Collections.unmodifiableList(keys);

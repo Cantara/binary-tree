@@ -1,5 +1,7 @@
 package no.cantara.binarytree;
 
+import java.util.Iterator;
+
 import static java.lang.Math.max;
 
 /**
@@ -7,42 +9,91 @@ import static java.lang.Math.max;
  *
  * @author <a href="sven@happycoders.eu">Sven Woltmann</a>
  */
-public class AvlTree extends BinarySearchTreeRecursive {
+public class AvlTree extends BinarySearchTreeIterative {
 
   public AvlTree(NodeFactory factory) {
     super(factory);
   }
 
-  @Override
-  Node insertNode(long key, Node node) {
-    node = super.insertNode(key, node);
-
-    updateHeight(node);
-
-    return rebalance(node);
+  public AvlTree(NodeFactory factory, TraversalRange range, boolean traversalDirection, Node root) {
+    super(factory, range, traversalDirection, root);
   }
 
   @Override
-  Node deleteNode(long key, Node node) {
-    node = super.deleteNode(key, node);
+  public BinarySearchTreeIterative subTree(TraversalRange subRange, boolean traversalDirection) {
+    return new AvlTree(factory, range.subRange(subRange), traversalDirection, root);
+  }
+
+  @Override
+  public Node insertNode(long key) {
+    InsertionContext ctx = new InsertionContext();
+    Node node = super.insertNode(key, ctx);
+
+    updateHeightsAndRebalancePath(ctx.affectedPath);
+    return node;
+  }
+
+  private Node updateHeightsAndRebalancePath(BinaryTreePath affectedPath) {
+    Node lastRebalanceResult = null;
+    Node lastAffectedNode = null;
+
+    Iterator<BinaryTreePathElement> reverseAffectedPathIterator = affectedPath.descendingIterator();
+    BinaryTreePathElement next = null;
+    if (reverseAffectedPathIterator.hasNext()) {
+      next = reverseAffectedPathIterator.next();
+      updateHeight(next.node);
+      lastRebalanceResult = rebalance(next.node);
+      lastAffectedNode = next.node;
+    }
+    while (reverseAffectedPathIterator.hasNext()) {
+      BinaryTreePathElement child = next;
+      next = reverseAffectedPathIterator.next();
+      if (!child.node.equals(lastRebalanceResult)) {
+        // rotate has happened - root of subtree changed
+        if (child.leftChildOfParent) {
+          next.node.left(lastRebalanceResult);
+        } else {
+          next.node.right(lastRebalanceResult);
+        }
+      }
+      updateHeight(next.node);
+      lastRebalanceResult = rebalance(next.node);
+      lastAffectedNode = next.node;
+    }
+
+    if (root.equals(lastAffectedNode) && !root.equals(lastRebalanceResult)) {
+      root = lastRebalanceResult;
+    }
+
+    return lastRebalanceResult;
+  }
+
+  @Override
+  Node deleteNode(long key, DeletionContext ctx) {
+    Node node = super.deleteNode(key, ctx);
 
     // Node is null if the tree doesn't contain the key
     if (node == null) {
       return null;
     }
 
-    updateHeight(node);
+    node.delete(); // allow node to delete any other internal state, e.g. relationships to other nodes that has nothing to do with this tree structure.
 
-    return rebalance(node);
+    if (root == null) {
+      // the only node in tree was deleted
+      return node;
+    }
+
+    return updateHeightsAndRebalancePath(ctx.affectedPath);
   }
 
-  private void updateHeight(Node node) {
+  static void updateHeight(Node node) {
     int leftChildHeight = height(node.left());
     int rightChildHeight = height(node.right());
     node.height(max(leftChildHeight, rightChildHeight) + 1);
   }
 
-  private Node rebalance(Node node) {
+  private static Node rebalance(Node node) {
     int balanceFactor = balanceFactor(node);
 
     // Left-heavy?
@@ -72,7 +123,7 @@ public class AvlTree extends BinarySearchTreeRecursive {
     return node;
   }
 
-  private Node rotateRight(Node node) {
+  private static Node rotateRight(Node node) {
     Node leftChild = node.left();
 
     node.left(leftChild.right());
@@ -84,7 +135,7 @@ public class AvlTree extends BinarySearchTreeRecursive {
     return leftChild;
   }
 
-  private Node rotateLeft(Node node) {
+  private static Node rotateLeft(Node node) {
     Node rightChild = node.right();
 
     node.right(rightChild.left());
@@ -96,11 +147,11 @@ public class AvlTree extends BinarySearchTreeRecursive {
     return rightChild;
   }
 
-  private int balanceFactor(Node node) {
+  private static int balanceFactor(Node node) {
     return height(node.right()) - height(node.left());
   }
 
-  private int height(Node node) {
+  private static int height(Node node) {
     return node != null ? node.height() : -1;
   }
 

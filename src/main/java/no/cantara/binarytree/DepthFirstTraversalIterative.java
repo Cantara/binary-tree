@@ -18,9 +18,34 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
 
   @Override
   public void traversePreOrder(NodeVisitor visitor) {
+    traversePreOrder(TraversalRange.OPEN, (ctx, node) -> visitor.visit(node));
+  }
+
+  @Override
+  public void traversePostOrder(NodeVisitor visitor) {
+    traversePostOrder(TraversalRange.OPEN, (ctx, node) -> visitor.visit(node));
+  }
+
+  @Override
+  public void traverseInOrder(NodeVisitor visitor) {
+    traverseInOrder(TraversalRange.OPEN, (ctx, node) -> visitor.visit(node));
+  }
+
+  @Override
+  public void traverseReverseInOrder(NodeVisitor visitor) {
+    traverseReverseInOrder(TraversalRange.OPEN, (ctx, node) -> visitor.visit(node));
+  }
+
+  @Override
+  public <R> TraversalSummary<R> traversePreOrder(TraversalRange range, Visitor<R> visitor) {
+    TraversalContext<R> ctx = traversePreOrder(new TraversalContext<>(range), visitor);
+    return new TraversalSummary<>(ctx.result);
+  }
+
+  <R> TraversalContext<R> traversePreOrder(TraversalContext<R> ctx, Visitor<R> visitor) {
     Node node = tree.getRoot();
     if (node == null) {
-      return;
+      return ctx;
     }
 
     // Not using a java.util.Stack here. See
@@ -30,18 +55,33 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
 
     while (!stack.isEmpty()) {
       node = stack.poll();
-      visitor.visit(node);
-      if (node.right() != null) {
-        stack.push(node.right());
+      if (ctx.shouldVisit(node)) {
+        visitor.visit(ctx, node);
+        if (ctx.stop) {
+          return ctx;
+        }
       }
-      if (node.left() != null) {
-        stack.push(node.left());
+      if (ctx.shouldTraverseRight(node)) {
+        if (node.right() != null) {
+          stack.push(node.right());
+        }
+      }
+      if (ctx.shouldTraverseLeft(node)) {
+        if (node.left() != null) {
+          stack.push(node.left());
+        }
       }
     }
+    return ctx;
   }
 
   @Override
-  public void traversePostOrder(NodeVisitor visitor) {
+  public <R> TraversalSummary<R> traversePostOrder(TraversalRange range, Visitor<R> visitor) {
+    TraversalContext<R> ctx = traversePostOrder(new TraversalContext<>(range), visitor);
+    return new TraversalSummary<>(ctx.result);
+  }
+
+  <R> TraversalContext<R> traversePostOrder(TraversalContext<R> ctx, Visitor<R> visitor) {
     Node node = tree.getRoot();
     Node lastVisitedNode = null;
 
@@ -52,21 +92,36 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty() || node != null) {
       if (node != null) {
         stack.push(node);
-        node = node.left();
+        if (ctx.shouldTraverseLeft(node)) {
+          node = node.left();
+        } else {
+          node = null;
+        }
       } else {
         Node topNode = stack.peek();
-        if (topNode.right() != null && !topNode.right().equals(lastVisitedNode)) {
+        if (ctx.shouldTraverseRight(topNode) && topNode.right() != null && !topNode.right().equals(lastVisitedNode)) {
           node = topNode.right();
         } else {
-          visitor.visit(topNode);
+          if (ctx.shouldVisit(topNode)) {
+            visitor.visit(ctx, topNode);
+            if (ctx.stop) {
+              return ctx;
+            }
+          }
           lastVisitedNode = stack.poll();
         }
       }
     }
+    return ctx;
   }
 
   @Override
-  public void traverseInOrder(NodeVisitor visitor) {
+  public <R> TraversalSummary<R> traverseInOrder(TraversalRange range, Visitor<R> visitor) {
+    TraversalContext<R> ctx = traverseInOrder(new TraversalContext<>(range), visitor);
+    return new TraversalSummary<>(ctx.result);
+  }
+
+  <R> TraversalContext<R> traverseInOrder(TraversalContext<R> ctx, Visitor<R> visitor) {
     Node node = tree.getRoot();
 
     // Not using a java.util.Stack here. See
@@ -76,17 +131,36 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty() || node != null) {
       if (node != null) {
         stack.push(node);
-        node = node.left();
+        if (ctx.shouldTraverseLeft(node)) {
+          node = node.left();
+        } else {
+          node = null;
+        }
       } else {
         node = stack.pop();
-        visitor.visit(node);
-        node = node.right();
+        if (ctx.shouldVisit(node)) {
+          visitor.visit(ctx, node);
+          if (ctx.stop) {
+            return ctx;
+          }
+        }
+        if (ctx.shouldTraverseRight(node)) {
+          node = node.right();
+        } else {
+          node = null;
+        }
       }
     }
+    return ctx;
   }
 
   @Override
-  public void traverseReverseInOrder(NodeVisitor visitor) {
+  public <R> TraversalSummary<R> traverseReverseInOrder(TraversalRange range, Visitor<R> visitor) {
+    TraversalContext<R> ctx = traverseReverseInOrder(new TraversalContext<>(range), visitor);
+    return new TraversalSummary<>(ctx.result);
+  }
+
+  <R> TraversalContext<R> traverseReverseInOrder(TraversalContext<R> ctx, Visitor<R> visitor) {
     Node node = tree.getRoot();
 
     // Not using a java.util.Stack here. See
@@ -96,12 +170,26 @@ public final class DepthFirstTraversalIterative implements DepthFirstTraversal {
     while (!stack.isEmpty() || node != null) {
       if (node != null) {
         stack.push(node);
-        node = node.right();
+        if (ctx.shouldTraverseRight(node)) {
+          node = node.right();
+        } else {
+          node = null;
+        }
       } else {
         node = stack.pop();
-        visitor.visit(node);
-        node = node.left();
+        if (ctx.shouldVisit(node)) {
+          visitor.visit(ctx, node);
+          if (ctx.stop) {
+            return ctx;
+          }
+        }
+        if (ctx.shouldTraverseLeft(node)) {
+          node = node.left();
+        } else {
+          node = null;
+        }
       }
     }
+    return ctx;
   }
 }
